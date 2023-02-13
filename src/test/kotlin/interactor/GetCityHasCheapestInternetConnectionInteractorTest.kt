@@ -54,9 +54,9 @@ internal class GetCityHasCheapestInternetConnectionInteractorTest {
 
     @Test
     fun  should_ReturnException_WhenInternet_priceOrSalaryNegative(){
-        // given an Empty list
+        // given city entity with negative internet price or salary
         val citiesEntity = fakeData.getAllCitiesData()[8]
-        // when the given is an empty list
+        // when check for city entity negative internet price or salary
         val operation = Executable { cityHasCheapestInternet.execute(listOf(citiesEntity)) }
         // then check the result
         assertThrows(NoSuchElementException::class.java,operation)
