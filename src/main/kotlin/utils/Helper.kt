@@ -35,7 +35,7 @@ class Helper(private val dataSource: CostOfLivingDataSource) {
                 "3" -> {
                     print("please enter name country:-")
                     val nameCountry = readlnOrNull()
-                    println(nameCountry?.let { GetCitiesAverageSalary(dataSource).execute(it) })
+                    println(nameCountry?.let { SearchForSalariesInCountryCities(dataSource)(it) })
                     printSeparationLine()
                 }
 
