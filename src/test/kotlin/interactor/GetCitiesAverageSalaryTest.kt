@@ -1,7 +1,8 @@
 package interactor
 
-import data.FakeDataSource
-import data.TestCase
+import data.CitiesAverageSalaryFakeData
+import data.EmptyFakeData
+import data.InvalidFakeData
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
@@ -9,81 +10,127 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.function.Executable
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-internal class GetCitiesAverageSalaryTest {
+internal class SearchForSalariesInCountryCitiesTest {
+    private lateinit var searchForSalariesInCountryCities: SearchForSalariesInCountryCities
+    private lateinit var fakeData: CitiesAverageSalaryFakeData
+    private lateinit var emptyList: EmptyFakeData
+    private lateinit var invalidFakeData: InvalidFakeData
 
-    private lateinit var getCitiesAverageSalary: GetCitiesAverageSalary
-    private lateinit var fakeData: FakeDataSource
 
     @BeforeAll
     fun setUp() {
-        fakeData = FakeDataSource()
-        getCitiesAverageSalary = GetCitiesAverageSalary(fakeData)
-        fakeData.changeDataSource(TestCase.CitiesAverageSalary)
+        emptyList = EmptyFakeData()
+        fakeData = CitiesAverageSalaryFakeData()
+        invalidFakeData = InvalidFakeData()
 
     }
 
     @Test
-    fun should_ReturnCitiesWithAverageSalary_When_InputLowerCaseCountry() {
+    fun should_ReturnCitiesWithAverageSalary_When_InputIsLowerCaseCountryName() {
         //given a lower case country
         val country = "cuba"
+        searchForSalariesInCountryCities = SearchForSalariesInCountryCities(fakeData)
 
         //when calculate the average salary of city
-        val result = getCitiesAverageSalary.execute(country)
+        val result = searchForSalariesInCountryCities(country)
 
         //then check the result
-        val fakeList = listOf(Pair("Santa Clara", 25.0))
+        val fakeList = listOf(Pair("Santa Clara", 25.0f))
         assertEquals(fakeList, result)
     }
 
     @Test
-    fun should_ReturnCitiesWithAverageSalary_When_InputUpperCaseCountry() {
+    fun should_ReturnCitiesWithAverageSalary_When_InputIsUpperCaseCountryName() {
         //given an upper case country
         val country = "CUBA"
+        searchForSalariesInCountryCities = SearchForSalariesInCountryCities(fakeData)
 
         //when calculate the average salary of city
-        val result = getCitiesAverageSalary.execute(country)
+        val result = searchForSalariesInCountryCities(country)
 
         //then check the result
-        val fakeList = listOf(Pair("Santa Clara", 25.0))
+        val fakeList = listOf(Pair("Santa Clara", 25.0f))
         assertEquals(fakeList, result)
     }
 
     @Test
-    fun should_ReturnCitiesWithAverageSalary_When_InputUpperCaseAndLowerCaseCountry() {
-        //given an upperCase and lowercase country
+    fun should_ReturnCitiesWithAverageSalary_When_InputIsUpperCaseAndLowerCaseCountryName() {
+        //given an upperCase and lowercase country name
         val country = "Cuba"
+        searchForSalariesInCountryCities = SearchForSalariesInCountryCities(fakeData)
 
         //when calculate the average salary of city
-        val result = getCitiesAverageSalary.execute(country)
+        val result = searchForSalariesInCountryCities(country)
 
         //then check the result
-        val fakeList = listOf(Pair("Santa Clara", 25.0))
+        val fakeList = listOf(Pair("Santa Clara", 25.0f))
         assertEquals(fakeList, result)
     }
 
     @Test
-    fun should_ReturnCorrectCities_when_TheDataQualityIsTrue() {
-        //given a country with true data quality
+    fun should_ReturnCorrectCities_when_HasHighDataQuality() {
+        //given a country with high data quality
         val country = "cuba"
+        searchForSalariesInCountryCities = SearchForSalariesInCountryCities(fakeData)
 
         //when return the average cities salary
-        val result = getCitiesAverageSalary.execute(country)
+        val result = searchForSalariesInCountryCities(country)
 
         //then check the result
-        val fakeList = listOf(Pair("Santa Clara", 25.0))
+        val fakeList = listOf(Pair("Santa Clara", 25.0f))
         assertEquals(fakeList, result)
 
     }
 
     @Test
-    fun should_ReturnThrowException_When_InputWrong() {
-        //given a wrong name country
-        val country = "&&7#"
+    fun should_ThrowException_When_TheCountryNameIsWrong() {
+        //given an invalid name country
+        val country = "AIZY"
+        searchForSalariesInCountryCities = SearchForSalariesInCountryCities(fakeData)
 
         //when calculate the average salary of city
-        val result = Executable { getCitiesAverageSalary.execute(country) }
+        val result = Executable { searchForSalariesInCountryCities(country) }
 
         //then check the result
+        assertThrows(IllegalArgumentException::class.java, result)
+    }
+
+    @Test
+    fun should_ThrowException_When_EnteringSpaces() {
+        //given an invalid name country
+        val country = "    "
+        searchForSalariesInCountryCities = SearchForSalariesInCountryCities(fakeData)
+
+        //when calculate the average salary of city
+        val result = Executable { searchForSalariesInCountryCities(country) }
+
+        //then check the result
+        assertThrows(IllegalArgumentException::class.java, result)
+    }
+
+    @Test
+    fun should_ThrowException_when_AverageSalaryIsNull() {
+        //given invalid country name
+        val country = "japan"
+
+        //when calculate the average salaries
+        searchForSalariesInCountryCities = SearchForSalariesInCountryCities(invalidFakeData)
+
+        //then check the result
+        val result = Executable { searchForSalariesInCountryCities(country) }
+        assertThrows(IllegalArgumentException::class.java, result)
+    }
+
+    @Test
+    fun should_EmptyList_when_EnteringEmptyList() {
+        //given valid country name
+        val country = "cuba"
+
+        //when calculate the average salaries
+        searchForSalariesInCountryCities = SearchForSalariesInCountryCities(emptyList)
+
+        //then check the result
+        val result = Executable { searchForSalariesInCountryCities(country) }
         assertThrows(IllegalArgumentException::class.java, result)
     }
 }
