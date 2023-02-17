@@ -113,7 +113,7 @@ internal class SearchForSalariesInCountryCitiesTest {
         //given invalid country name
         val country = "japan"
 
-        //when calculate the average salaries
+        //when the salary is null
         searchForSalariesInCountryCities = SearchForSalariesInCountryCities(invalidFakeData)
 
         //then check the result
@@ -122,11 +122,11 @@ internal class SearchForSalariesInCountryCitiesTest {
     }
 
     @Test
-    fun should_EmptyList_when_EnteringEmptyList() {
+    fun should_ThrowException_when_TheDataIsEmpty() {
         //given valid country name
         val country = "cuba"
 
-        //when calculate the average salaries
+        //when the data is empty
         searchForSalariesInCountryCities = SearchForSalariesInCountryCities(emptyList)
 
         //then check the result
