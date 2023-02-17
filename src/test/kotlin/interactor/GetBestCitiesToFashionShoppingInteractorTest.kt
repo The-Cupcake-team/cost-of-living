@@ -1,7 +1,6 @@
 package interactor
 
-import data.FakeDataSource
-import data.TestCase
+import data.*
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
@@ -13,53 +12,56 @@ import kotlin.test.assertEquals
 class GetBestCitiesToFashionShoppingInteractorTest {
 
     private lateinit var getBestCitiesToFashionShopping: GetBestCitiesToFashionShoppingInteractor
-    private lateinit var fakeData: FakeDataSource
+
+    private lateinit var fakeDataValid: FashionShoppingFakeData
+    private lateinit var emptyFakeData: EmptyFakeData
+    private lateinit var invalidFakeData: InvalidFakeData
 
     @BeforeAll
     fun setUp() {
-        fakeData = FakeDataSource()
-        getBestCitiesToFashionShopping = GetBestCitiesToFashionShoppingInteractor(fakeData)
-
+        fakeDataValid = FashionShoppingFakeData()
+        emptyFakeData = EmptyFakeData()
+        invalidFakeData = InvalidFakeData()
     }
 
     @Test
-    fun should_returnCity_when_ValidData() {
-        // Given
-        fakeData.changeDataSource(TestCase.FashionShopping)
+    fun `should return 5 best cities to shopping when data include 5 cities full data valid`() {
+        // given data with full data valid
+        getBestCitiesToFashionShopping = GetBestCitiesToFashionShoppingInteractor(fakeDataValid)
+        val expectedResult = listOf("Damanhur", "cairo", "Pearl City", "Keller", "Malden")
 
-        // When
-        val countries = listOf("Sancti Spiritus", "Santiago de Cuba", "Santa Clara")
-        val result = getBestCitiesToFashionShopping.execute()
+        // when find 5 best cities to fashion shopping
+        val result = getBestCitiesToFashionShopping(5)
 
-        // Then check the final result
-        assertEquals(countries, result)
+        // then check the result
+        assertEquals(expectedResult, result)
     }
-
     @Test
-    fun should_returnEmptyList_When_clothesPricesAreNull() {
-        // Given data clothes prices null
-        fakeData.changeDataSource(TestCase.InvalidData)
-
-        // When return emptyList
+    fun `should return empty list When all data give clothes prices null`() {
+        // given data with clothes prices null
+        getBestCitiesToFashionShopping = GetBestCitiesToFashionShoppingInteractor(invalidFakeData)
         val expected = emptyList<String>()
-        val result = getBestCitiesToFashionShopping.execute()
 
-        // Then check the final result
+        // when find 5 best cities to fashion shopping
+        val result = getBestCitiesToFashionShopping(5)
+
+        // then check the result
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `should return empty list When give empty list`() {
+        // given data empty list
+        getBestCitiesToFashionShopping = GetBestCitiesToFashionShoppingInteractor(emptyFakeData)
+        val expected = emptyList<String>()
+
+        // when find 5 best cities to fashion shopping
+        val result = getBestCitiesToFashionShopping(5)
+
+        // then check the result
         assertEquals(expected, result)
     }
 
 
-    @Test
-    fun should_returnEmptyList_When_DataListEmpty() {
-        // Given data empty
-        fakeData.changeDataSource(TestCase.Empty)
-
-        // When return emptyList
-        val expected = emptyList<String>()
-        val result = getBestCitiesToFashionShopping.execute()
-
-        // Then check the final result
-        assertEquals(expected, result)
-    }
 
 }
