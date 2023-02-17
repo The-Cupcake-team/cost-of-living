@@ -53,7 +53,7 @@ class Helper(private val dataSource: CostOfLivingDataSource) {
                 }
 
                 "5" -> {
-                    println(GetBestCitiesToFashionShoppingInteractor(dataSource).execute())
+                    println(GetBestCitiesToFashionShoppingInteractor(dataSource))
                     printSeparationLine()
                 }
 
