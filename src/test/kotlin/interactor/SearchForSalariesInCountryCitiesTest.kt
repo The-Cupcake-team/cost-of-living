@@ -24,9 +24,8 @@ internal class SearchForSalariesInCountryCitiesTest {
         invalidFakeData = InvalidFakeData()
 
     }
-
     @Test
-    fun should_ReturnCitiesWithAverageSalary_When_InputIsLowerCaseCountryName() {
+    fun `should return cities with average salary when input is lower case country name`() {
         //given a lower case country
         val country = "cuba"
         searchForSalariesInCountryCities = SearchForSalariesInCountryCities(fakeData)
@@ -40,7 +39,7 @@ internal class SearchForSalariesInCountryCitiesTest {
     }
 
     @Test
-    fun should_ReturnCitiesWithAverageSalary_When_InputIsUpperCaseCountryName() {
+    fun `should return cities with average salary when input is upper case country name`() {
         //given an upper case country
         val country = "CUBA"
         searchForSalariesInCountryCities = SearchForSalariesInCountryCities(fakeData)
@@ -54,7 +53,7 @@ internal class SearchForSalariesInCountryCitiesTest {
     }
 
     @Test
-    fun should_ReturnCitiesWithAverageSalary_When_InputIsUpperCaseAndLowerCaseCountryName() {
+    fun `should return cities with average salary when input is upper case and lower case country name`() {
         //given an upperCase and lowercase country name
         val country = "Cuba"
         searchForSalariesInCountryCities = SearchForSalariesInCountryCities(fakeData)
@@ -68,7 +67,7 @@ internal class SearchForSalariesInCountryCitiesTest {
     }
 
     @Test
-    fun should_ReturnCorrectCities_when_HasHighDataQuality() {
+    fun `should return correct cities when has high data quality`() {
         //given a country with high data quality
         val country = "cuba"
         searchForSalariesInCountryCities = SearchForSalariesInCountryCities(fakeData)
@@ -83,7 +82,7 @@ internal class SearchForSalariesInCountryCitiesTest {
     }
 
     @Test
-    fun should_ThrowException_When_TheCountryNameIsWrong() {
+    fun `should throw exception when the country name is wrong`() {
         //given an invalid name country
         val country = "AIZY"
         searchForSalariesInCountryCities = SearchForSalariesInCountryCities(fakeData)
@@ -96,7 +95,7 @@ internal class SearchForSalariesInCountryCitiesTest {
     }
 
     @Test
-    fun should_ThrowException_When_EnteringSpaces() {
+    fun `should throw exception when entering spaces`() {
         //given an invalid name country
         val country = "    "
         searchForSalariesInCountryCities = SearchForSalariesInCountryCities(fakeData)
@@ -109,7 +108,7 @@ internal class SearchForSalariesInCountryCitiesTest {
     }
 
     @Test
-    fun should_ThrowException_when_AverageSalaryIsNull() {
+    fun `should throw exception when average salary is null`() {
         //given invalid country name
         val country = "japan"
 
@@ -122,7 +121,7 @@ internal class SearchForSalariesInCountryCitiesTest {
     }
 
     @Test
-    fun should_ThrowException_when_TheDataIsEmpty() {
+    fun `should throw exception when the data is empty`() {
         //given valid country name
         val country = "cuba"
 
