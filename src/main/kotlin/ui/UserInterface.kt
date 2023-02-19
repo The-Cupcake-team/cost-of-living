@@ -1,4 +1,4 @@
-package utils
+package ui
 
 import interactor.*
 import interactor.utils.BedroomOption
