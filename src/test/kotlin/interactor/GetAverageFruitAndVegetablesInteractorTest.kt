@@ -1,16 +1,13 @@
 package interactor
 
+import data.EmptyFakeData
 import data.FruitsAndVegetablesFakeData
 import data.InvalidFakeData
-import model.CityEntity
-import model.FruitAndVegetablesPrices
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.function.Executable
-import java.lang.IllegalArgumentException
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GetAverageFruitAndVegetablesInteractorTest {
@@ -52,9 +49,24 @@ class GetAverageFruitAndVegetablesInteractorTest {
         // given a limit of cities and invalid data source
         val limit = 10
 
-        getAverageFruitAndVegetablesInteractor = GetAverageFruitAndVegetablesInteractor(InvalidFakeData())
+        getAverageFruitAndVegetablesInteractor = GetAverageFruitAndVegetablesInteractor(InvalidFakeData)
 
-        // when check and throw exception
+        // when check and return empty list
+        val result = getAverageFruitAndVegetablesInteractor.execute(limit)
+
+        val expected = emptyList<String>()
+        // then asserted the return and the expected
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `should return empty list when given the data source is empty`() {
+        // given a limit of cities and invalid data source
+        val limit = 10
+
+        getAverageFruitAndVegetablesInteractor = GetAverageFruitAndVegetablesInteractor(EmptyFakeData)
+
+        // when check and return empty list
         val result = getAverageFruitAndVegetablesInteractor.execute(limit)
 
         val expected = emptyList<String>()
@@ -70,9 +82,9 @@ class GetAverageFruitAndVegetablesInteractorTest {
         // when check and return empty list
         val result = getAverageFruitAndVegetablesInteractor.execute(limit)
 
-        // then asserted the return and the expected
         val expected = emptyList<String>()
 
+        // then asserted the return and the expected
         assertEquals(expected, result)
     }
 

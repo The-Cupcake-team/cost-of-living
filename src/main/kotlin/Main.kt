@@ -1,7 +1,7 @@
 import dataSource.CsvDataSource
 import dataSource.utils.CsvParser
 import interactor.*
-import utils.UserInterface
+import ui.UserInterface
 
 fun main() {
     val csvParser = CsvParser()

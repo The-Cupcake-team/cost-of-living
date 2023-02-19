@@ -2,6 +2,7 @@ package utils
 
 import interactor.*
 import interactor.utils.BedroomOption
+import model.*
 
 
 class UserInterface(private val dataSource: CostOfLivingDataSource) {
@@ -9,7 +10,7 @@ class UserInterface(private val dataSource: CostOfLivingDataSource) {
         do {
             println(
                 "1- Get the city that has the cheapest internet connection. \n" +
-                        "2- Get 10 cities with lowest fruit/veg prices compared to salaries. \n" +
+                        "2- Get cities with lowest fruit/veg prices compared to salaries. \n" +
                         "3- Get country's salaries with mixed case input.\n" +
                         "4- Get city with highest apartment rent difference between city center and outside.\n" +
                         "5- Get top 5 cities to fashion shopping famous brands for most suitable prices.\n" +
@@ -21,15 +22,16 @@ class UserInterface(private val dataSource: CostOfLivingDataSource) {
                         "11-Get best city for living to a fitness man.\n"+
                         "Note: for exit write 'Exit/exit' \n\n"
             )
-            val input = readlnOrNull()
-            when (input) {
+            when (readlnOrNull()) {
                 "1" -> {
                     println(GetCityHasCheapestInternetConnectionInteractor(dataSource).execute())
                     printSeparationLine()
                 }
 
                 "2" -> {
-                    println(GetAverageFruitAndVegetablesInteractor(dataSource).execute(12))
+                    print("How many cities would you like?")
+                    val limit = readln().toInt()
+                    println(GetAverageFruitAndVegetablesInteractor(dataSource).execute(limit))
                     printSeparationLine()
                 }
 
@@ -41,15 +43,8 @@ class UserInterface(private val dataSource: CostOfLivingDataSource) {
                 }
 
                 "4" -> {
-                    print("choose:-")
-                    print("1- Apartment one bedroom.")
-                    print("2- Apartment three bedroom :-")
-                    print("enter 1 or 2")
-                    val count = readlnOrNull()
-                    var option = BedroomOption.ONE_BEDROOM
-                    if (count.equals("2"))
-                        option = BedroomOption.THREE_BEDROOM
-                    println(count?.let { GetCostlierCityInteractor(dataSource).execute(option) })
+
+                    println( GetCostlierCityInteractor(dataSource).execute() )
                     printSeparationLine()
                 }
 
@@ -74,10 +69,11 @@ class UserInterface(private val dataSource: CostOfLivingDataSource) {
                 }
 
                 "7" -> {
-                    print("please enter name city:-")
-                    val nameCity = readlnOrNull()
-                    if (nameCity != null) {
-                        println(GetCitiesNamesWithCheapestBananaPricesInteractor(dataSource).execute(nameCity))
+                    print("please enter cities names seperated by dash :- ")
+                    val citiesNames = readlnOrNull()
+                    if (citiesNames != null) {
+                        val city = makeCities(citiesNames.split("-"))
+                            println(GetCitiesNamesWithCheapestBananaPricesInteractor(dataSource)(*city))
                     } else {
                         print("your input not valid, try again.")
                     }
@@ -134,3 +130,19 @@ class UserInterface(private val dataSource: CostOfLivingDataSource) {
         print("\n_______________________________\n")
     }
 }
+
+fun makeCities(cityNames: List<String>) = cityNames.map {
+    CityEntity(
+        it, "",
+        MealsPrices(null, null, null),
+        DrinksPrices(null, null, null, null, null),
+        FruitAndVegetablesPrices(null, null, null, null, null, null, null),
+        FoodPrices(null, null, null, null, null, null),
+        ServicesPrices(null, null, null, null, null, null, null, null),
+        ClothesPrices(null, null, null, null),
+        TransportationsPrices(null, null, null, null, null, null),
+        CarsPrices(null, null),
+        RealEstatesPrices(null, null, null, null, null, null),
+        null, false
+    )
+}.toTypedArray()
