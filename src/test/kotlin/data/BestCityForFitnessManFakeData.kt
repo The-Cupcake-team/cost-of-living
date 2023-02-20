@@ -7,7 +7,7 @@ object BestCityForFitnessManFakeData : CostOfLivingDataSource{
     override fun getAllCitiesData(): List<CityEntity> {
         return listOf(
             CityEntity(
-                cityName = "Santiago de Cuba",
+                cityName = "New York",
                 country = "USA",
                 mealsPrices = MealsPrices(
                     mealInexpensiveRestaurant = 6.5f,
@@ -42,7 +42,7 @@ object BestCityForFitnessManFakeData : CostOfLivingDataSource{
                     basicElectricityHeatingCoolingWaterGarbageFor85m2Apartment = null,
                     oneMinOfPrepaidMobileTariffLocalNoDiscountsOrPlans = 0.1f,
                     internet60MbpsOrMoreUnlimitedDataCableAdsl = null,
-                    fitnessClubMonthlyFeeForOneAdult = null,
+                    fitnessClubMonthlyFeeForOneAdult = 9.0f,
                     tennisCourtRentOneHourOnWeekend = null,
                     cinemaInternationalReleaseOneSeat = 1.0f,
                     preschoolOrKindergartenFullDayPrivateMonthlyForOneChild = null,
@@ -78,7 +78,7 @@ object BestCityForFitnessManFakeData : CostOfLivingDataSource{
                 dataQuality = true
             ),
             CityEntity(
-                cityName = "Sancti Spiritus",
+                cityName = "Houston",
                 country = "USA",
                 mealsPrices = MealsPrices(
                     mealInexpensiveRestaurant = 7.0f,
@@ -99,7 +99,7 @@ object BestCityForFitnessManFakeData : CostOfLivingDataSource{
                     tomato1kg = 1.0f,
                     potato1kg = 2.0f,
                     onion1kg = 2.0f,
-                    lettuceOneHead = null
+                    lettuceOneHead = 0.25f
                 ),
                 foodPrices = FoodPrices(
                     loafOfFreshWhiteBread500g = null,
@@ -113,7 +113,7 @@ object BestCityForFitnessManFakeData : CostOfLivingDataSource{
                     basicElectricityHeatingCoolingWaterGarbageFor85m2Apartment = 30.0f,
                     oneMinOfPrepaidMobileTariffLocalNoDiscountsOrPlans = null,
                     internet60MbpsOrMoreUnlimitedDataCableAdsl = null,
-                    fitnessClubMonthlyFeeForOneAdult = null,
+                    fitnessClubMonthlyFeeForOneAdult = 7.4f,
                     tennisCourtRentOneHourOnWeekend = null,
                     cinemaInternationalReleaseOneSeat = null,
                     preschoolOrKindergartenFullDayPrivateMonthlyForOneChild = null,
@@ -149,7 +149,7 @@ object BestCityForFitnessManFakeData : CostOfLivingDataSource{
                 dataQuality = true
             ),
             CityEntity(
-                cityName = "Santa Clara",
+                cityName = "Chicago",
                 country = "USA",
                 mealsPrices = MealsPrices(
                     mealInexpensiveRestaurant = 10.0f,
