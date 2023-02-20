@@ -12,18 +12,15 @@ import org.junit.jupiter.api.function.Executable
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class SearchForSalariesInCountryCitiesTest {
     private lateinit var searchForSalariesInCountryCities: SearchForSalariesInCountryCities
-    private lateinit var fakeData: CitiesAverageSalaryFakeData
-    private lateinit var emptyList: EmptyFakeData
-    private lateinit var invalidFakeData: InvalidFakeData
+    private var fakeData = CitiesAverageSalaryFakeData
 
 
     @BeforeAll
     fun setUp() {
-        emptyList = EmptyFakeData()
-        fakeData = CitiesAverageSalaryFakeData()
-        invalidFakeData = InvalidFakeData()
+        searchForSalariesInCountryCities = SearchForSalariesInCountryCities(fakeData)
 
     }
+
     @Test
     fun `should return cities with average salary when input is lower case country name`() {
         //given a lower case country
@@ -113,7 +110,7 @@ internal class SearchForSalariesInCountryCitiesTest {
         val country = "japan"
 
         //when the salary is null
-        searchForSalariesInCountryCities = SearchForSalariesInCountryCities(invalidFakeData)
+        searchForSalariesInCountryCities = SearchForSalariesInCountryCities(InvalidFakeData)
 
         //then check the result
         val result = Executable { searchForSalariesInCountryCities(country) }
@@ -126,7 +123,7 @@ internal class SearchForSalariesInCountryCitiesTest {
         val country = "cuba"
 
         //when the data is empty
-        searchForSalariesInCountryCities = SearchForSalariesInCountryCities(emptyList)
+        searchForSalariesInCountryCities = SearchForSalariesInCountryCities(EmptyFakeData)
 
         //then check the result
         val result = Executable { searchForSalariesInCountryCities(country) }
