@@ -16,7 +16,7 @@ class GetBestCityForLivingToAFitnessManInteracter(private val dataSource: CostOf
     }
 
     private fun excludeNullFoodsAndSalariesAndLowDataQuality(city: CityEntity) =
-        checkIfNotNullFoodPrices(city) && checkIfNotNullVegetablePrices(city) &&
+        checkIfNotNullFoodPrices(city) && checkIfNotNullVegetablePrices(city) && checkIfNotNullServicePrice(city)&&
                 city.averageMonthlyNetSalaryAfterTax != null && city.dataQuality
 
     private fun checkIfNotNullVegetablePrices(city: CityEntity) =
@@ -29,7 +29,12 @@ class GetBestCityForLivingToAFitnessManInteracter(private val dataSource: CostOf
             riceWhite1kg != null && eggsRegular12 != null && chickenFillets1kg != null
         }
 
+    private fun checkIfNotNullServicePrice(city: CityEntity) =
+        with(city.servicesPrices){
+            fitnessClubMonthlyFeeForOneAdult != null
+        }
+
     private fun calculateTheRatioBetweenFoodPriceAndSalary(city: CityEntity) =
-        (city.fruitAndVegetablesPrices.getAverageVegetablesPrice() + city.foodPrices.getAverageFoodPrices()) /
+        (city.fruitAndVegetablesPrices.getAverageVegetablesPrice() + city.foodPrices.getAverageFoodPrices() + city.servicesPrices.fitnessClubMonthlyFeeForOneAdult!!) /
                 city.averageMonthlyNetSalaryAfterTax!!
 }
