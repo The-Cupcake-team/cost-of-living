@@ -31,8 +31,8 @@ internal class SearchForSalariesInCountryCitiesTest {
         val result = searchForSalariesInCountryCities(country)
 
         //then check the result
-        val fakeList = listOf(Pair("Santa Clara", 25.0f))
-        assertEquals(fakeList, result)
+        val expexted = listOf(Pair("Santa Clara", 25.0f))
+        assertEquals(expexted, result)
     }
 
     @Test
@@ -45,8 +45,8 @@ internal class SearchForSalariesInCountryCitiesTest {
         val result = searchForSalariesInCountryCities(country)
 
         //then check the result
-        val fakeList = listOf(Pair("Santa Clara", 25.0f))
-        assertEquals(fakeList, result)
+        val expexted = listOf(Pair("Santa Clara", 25.0f))
+        assertEquals(expexted, result)
     }
 
     @Test
@@ -59,8 +59,8 @@ internal class SearchForSalariesInCountryCitiesTest {
         val result = searchForSalariesInCountryCities(country)
 
         //then check the result
-        val fakeList = listOf(Pair("Santa Clara", 25.0f))
-        assertEquals(fakeList, result)
+        val expexted = listOf(Pair("Santa Clara", 25.0f))
+        assertEquals(expexted, result)
     }
 
     @Test
@@ -73,8 +73,8 @@ internal class SearchForSalariesInCountryCitiesTest {
         val result = searchForSalariesInCountryCities(country)
 
         //then check the result
-        val fakeList = listOf(Pair("Santa Clara", 25.0f))
-        assertEquals(fakeList, result)
+        val expexted = listOf(Pair("Santa Clara", 25.0f))
+        assertEquals(expexted, result)
 
     }
 
