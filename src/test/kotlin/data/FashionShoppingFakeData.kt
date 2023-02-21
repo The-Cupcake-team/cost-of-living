@@ -4,7 +4,7 @@ import interactor.CostOfLivingDataSource
 import model.*
 
 
-class FashionShoppingFakeData : CostOfLivingDataSource {
+object FashionShoppingFakeData : CostOfLivingDataSource {
     override fun getAllCitiesData(): List<CityEntity> {
         return listOf(
 

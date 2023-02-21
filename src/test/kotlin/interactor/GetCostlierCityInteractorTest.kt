@@ -15,15 +15,12 @@ internal class GetCostlierCityInteractorTest {
             GetCostlierCityInteractor
 
     lateinit var fakeDataSource: CostlierCityFakeData
-    lateinit var emptyFakeData: EmptyFakeData
-    lateinit var invalidFakeData: InvalidFakeData
+
 
 
     @BeforeAll
     fun setup() {
         fakeDataSource = CostlierCityFakeData()
-        emptyFakeData = EmptyFakeData()
-        invalidFakeData= InvalidFakeData()
     }
 
     @Test
@@ -38,7 +35,7 @@ internal class GetCostlierCityInteractorTest {
     @Test
     fun `should return empty when the data is empty`() {
         getCostlierCityInteractor =
-            GetCostlierCityInteractor(emptyFakeData)
+            GetCostlierCityInteractor(EmptyFakeData)
         //when The result is one city
         val result = Executable { getCostlierCityInteractor.execute() }
         //then check
@@ -49,7 +46,7 @@ internal class GetCostlierCityInteractorTest {
     @Test
     fun `should throw exception when the data is inValid`() {
         getCostlierCityInteractor =
-            GetCostlierCityInteractor(invalidFakeData)
+            GetCostlierCityInteractor(InvalidFakeData)
         //when The result is one city
         val result = Executable { getCostlierCityInteractor.execute() }
         //then check
