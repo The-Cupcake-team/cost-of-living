@@ -4,8 +4,9 @@ import interactor.CostOfLivingDataSource
 import model.*
 
 
-class BestCityForSavingMoneyFakeData : CostOfLivingDataSource {
+object BestCityForSavingMoneyFakeData : CostOfLivingDataSource {
     override fun getAllCitiesData(): List<CityEntity> {
+
         return listOf(
             CityEntity(
                 cityName = "Moncks Corner",
@@ -17,7 +18,7 @@ class BestCityForSavingMoneyFakeData : CostOfLivingDataSource {
                 ),
                 drinksPrices = DrinksPrices(
                     cappuccinoRegularInRestaurants = 4.33f,
-                    cokePepsiAThirdOfLiterBottleInRestaurants = 1.0f,
+                    cokePepsiAThirdOfLiterBottleInRestaurants = 0.2f,
                     waterAThirdOfLiterBottleInRestaurants = 1.0f,
                     milkRegularOneLiter = 0.91f,
                     waterOneAndHalfLiterBottleAtTheMarket = 1.75f
@@ -72,8 +73,8 @@ class BestCityForSavingMoneyFakeData : CostOfLivingDataSource {
                     apartmentOneBedroomOutsideOfCentre = 100.0f,
                     apartment3BedroomsInCityCentre = 1000.0f,
                     apartment3BedroomsOutsideOfCentre = 100.0f,
-                    pricePerSquareMeterToBuyApartmentInCityCentre = null,
-                    pricePerSquareMeterToBuyApartmentOutsideOfCentre = null
+                    pricePerSquareMeterToBuyApartmentInCityCentre = 1111.1f,
+                    pricePerSquareMeterToBuyApartmentOutsideOfCentre = 1111.1f
                 ),
                 averageMonthlyNetSalaryAfterTax = 90000000.0f,
                 dataQuality = false
@@ -90,7 +91,7 @@ class BestCityForSavingMoneyFakeData : CostOfLivingDataSource {
                 ),
                 drinksPrices = DrinksPrices(
                     cappuccinoRegularInRestaurants = 5.33f,
-                    cokePepsiAThirdOfLiterBottleInRestaurants = 1.8f,
+                    cokePepsiAThirdOfLiterBottleInRestaurants = 1.5f,
                     waterAThirdOfLiterBottleInRestaurants = 1.17f,
                     milkRegularOneLiter = 0.88f,
                     waterOneAndHalfLiterBottleAtTheMarket = 3.0f
@@ -142,13 +143,13 @@ class BestCityForSavingMoneyFakeData : CostOfLivingDataSource {
                 ),
                 realEstatesPrices = RealEstatesPrices(
                     apartmentOneBedroomInCityCentre = 1521.67f,
-                    apartmentOneBedroomOutsideOfCentre = null,
+                    apartmentOneBedroomOutsideOfCentre = 1111.1f,
                     apartment3BedroomsInCityCentre = 3200.0f,
-                    apartment3BedroomsOutsideOfCentre = null,
-                    pricePerSquareMeterToBuyApartmentInCityCentre = null,
-                    pricePerSquareMeterToBuyApartmentOutsideOfCentre = null
+                    apartment3BedroomsOutsideOfCentre = 1111.1f,
+                    pricePerSquareMeterToBuyApartmentInCityCentre = 1111.1f,
+                    pricePerSquareMeterToBuyApartmentOutsideOfCentre = 1111.1f
                 ),
-                averageMonthlyNetSalaryAfterTax = 13.5f,
+                averageMonthlyNetSalaryAfterTax = 5555.5f,
                 dataQuality = false
             ),
 
@@ -236,7 +237,7 @@ class BestCityForSavingMoneyFakeData : CostOfLivingDataSource {
                 ),
                 drinksPrices = DrinksPrices(
                     cappuccinoRegularInRestaurants = 5.25f,
-                    cokePepsiAThirdOfLiterBottleInRestaurants = null,
+                    cokePepsiAThirdOfLiterBottleInRestaurants = 1000.0f,
                     waterAThirdOfLiterBottleInRestaurants = 1.44f,
                     milkRegularOneLiter = 2.38f,
                     waterOneAndHalfLiterBottleAtTheMarket = 2.08f
@@ -291,15 +292,22 @@ class BestCityForSavingMoneyFakeData : CostOfLivingDataSource {
                     apartmentOneBedroomOutsideOfCentre = 1750.0f,
                     apartment3BedroomsInCityCentre = 5000.0f,
                     apartment3BedroomsOutsideOfCentre = 4750.0f,
-                    pricePerSquareMeterToBuyApartmentInCityCentre = null,
-                    pricePerSquareMeterToBuyApartmentOutsideOfCentre = null
+                    pricePerSquareMeterToBuyApartmentInCityCentre = 4000.0f,
+                    pricePerSquareMeterToBuyApartmentOutsideOfCentre = 3500.0f
                 ),
-                averageMonthlyNetSalaryAfterTax = 12.0f,
+                averageMonthlyNetSalaryAfterTax = 9000.0f,
                 dataQuality = false
             )
 
         )
 
+    }
+
+    val emptyData by lazy {
+        object : CostOfLivingDataSource {
+
+            override fun getAllCitiesData() = emptyList<CityEntity>()
+        }
     }
 }
 

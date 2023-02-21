@@ -1,61 +1,37 @@
 package interactor
 
 import model.CityEntity
-import java.util.*
+import kotlin.math.abs
 
 
 class GetCityThatMatchTheManagerExpectationsInteractor(
-    private val dataSource: CostOfLivingDataSource
+    private val dataSource: CostOfLivingDataSource,
 ) {
 
-    fun execute(countries: List<String>): CityEntity? {
-        val existCountries = countries.map(::formatCountriesNames)
-            .filter { selectedCountries.contains(it) }
+    operator fun invoke(selectedCountries: List<String>): CityEntity {
+        val countries = selectedCountries.map { it.lowercase() }
 
-        val pricesOfMeals = mutableListOf<Float>()
-
-        return if (existCountries.isNotEmpty()) {
-            dataSource
-                .getAllCitiesData()
-                .filter { it.country in existCountries }
-                .filter(::excludeNullPricesOfMeals)
-                .onEach {
-                    pricesOfMeals.add(it.mealsPrices.mealFor2PeopleMidRangeRestaurant!!)
-                }.let { citiesEntity ->
-                    getCityThatMatchExpectations(pricesOfMeals, citiesEntity)
-                }
-        } else {
-            null
-        }
+        return dataSource.getAllCitiesData()
+            .filter {
+                countries.contains(it.country.lowercase()) &&
+                it.excludeNullPricesOfMeals()
+            }
+            .takeIf { it.isNotEmpty() }
+            ?.getCityThatMatchExpectations()
+            ?: throw IllegalStateException("List of cities is empty")
     }
 
-
-    private fun formatCountriesNames(countryName: String): String {
-        return countryName.lowercase()
-            .trim()
-            .split("\\s+".toRegex())
-            .joinToString(" ") {
-                it.replaceFirstChar { char ->
-                    if (char.isLowerCase()) char.titlecase(Locale.getDefault()) else it
-                }
+    private fun CityEntity.excludeNullPricesOfMeals(): Boolean {
+        return with(mealsPrices){
+                mealInexpensiveRestaurant !=null &&
+                mealFor2PeopleMidRangeRestaurant !=null &&
+                mealAtMcDonaldSOrEquivalent != null
             }
     }
 
-    private fun excludeNullPricesOfMeals(city: CityEntity): Boolean {
-        return city.mealsPrices.mealFor2PeopleMidRangeRestaurant != null
-    }
-
-    private fun getCityThatMatchExpectations(
-        pricesOfMeals: MutableList<Float>,
-        citiesEntity: List<CityEntity>
-    ): CityEntity {
-        val midPriceOfMeals = (pricesOfMeals.maxOf { it } - pricesOfMeals.minOf { it }).div(2)
-        return citiesEntity
-            .filter { it.mealsPrices.mealFor2PeopleMidRangeRestaurant!! >= midPriceOfMeals }
-            .sortedBy { it.mealsPrices.mealFor2PeopleMidRangeRestaurant }.first()
-    }
-
-    companion object {
-        private val selectedCountries = listOf("United States", "Canada", "Mexico")
+    private fun List<CityEntity>.getCityThatMatchExpectations(): CityEntity {
+        val pricesOfMeals = this.map { it.mealsPrices.getSummationPricesOfMeals() }
+        val matchedPrice = (pricesOfMeals.maxOf { it } + pricesOfMeals.minOf { it }).div(2)
+        return minByOrNull { abs(matchedPrice - it.mealsPrices.getSummationPricesOfMeals()) }!!
     }
 }
