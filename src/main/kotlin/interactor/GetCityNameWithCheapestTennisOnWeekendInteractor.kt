@@ -1,6 +1,5 @@
-package interactor.plus
+package interactor
 
-import interactor.CostOfLivingDataSource
 import model.CityEntity
 
 class GetCitiesNameWithCheapestTennisPriceOnWeekendInteractor(

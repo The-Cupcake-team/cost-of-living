@@ -3,6 +3,7 @@ package interactor
 import data.BestCityForSavingMoneyFakeData
 import data.EmptyFakeData
 import model.CityEntity
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeAll
@@ -15,7 +16,7 @@ internal class GetBestCityForSavingMoneyInteractorTest {
     // region init
     private lateinit var bestCityForSavingMoney: GetBestCityForSavingMoneyInteractor
 
-    @BeforeAll
+    @AfterEach
     fun setup() {
 
         bestCityForSavingMoney =

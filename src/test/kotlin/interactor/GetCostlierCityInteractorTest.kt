@@ -11,12 +11,10 @@ import org.junit.jupiter.api.function.Executable
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class GetCostlierCityInteractorTest {
-    lateinit var getCostlierCityInteractor:
+    private lateinit var getCostlierCityInteractor:
             GetCostlierCityInteractor
 
-    lateinit var fakeDataSource: CostlierCityFakeData
-
-
+    private lateinit var fakeDataSource: CostlierCityFakeData
 
     @BeforeAll
     fun setup() {
@@ -29,7 +27,7 @@ internal class GetCostlierCityInteractorTest {
         //when The result is one city
         val city = getCostlierCityInteractor.execute()
         //then check
-        assertEquals( "Seoul", city.cityName)
+        assertEquals("Seoul", city.cityName)
     }
 
     @Test
@@ -39,7 +37,7 @@ internal class GetCostlierCityInteractorTest {
         //when The result is one city
         val result = Executable { getCostlierCityInteractor.execute() }
         //then check
-        assertThrows(Exception::class.java , result )
+        assertThrows(Exception::class.java, result)
 
     }
 
@@ -50,9 +48,8 @@ internal class GetCostlierCityInteractorTest {
         //when The result is one city
         val result = Executable { getCostlierCityInteractor.execute() }
         //then check
-        assertThrows(Exception::class.java , result )
+        assertThrows(Exception::class.java, result)
     }
-
 
 
 }

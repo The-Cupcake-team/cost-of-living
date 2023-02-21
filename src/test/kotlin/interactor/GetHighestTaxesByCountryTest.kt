@@ -10,15 +10,13 @@ import kotlin.test.assertEquals
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GetHighestTaxesByCountryTest {
 
-    lateinit var getHighestTaxesByCountry : GetHighestTaxesByCountry
-    lateinit var fakeDataSource : CountriesTaxesFakeData
+    private lateinit var getHighestTaxesByCountry : GetHighestTaxesByCountry
+    private lateinit var fakeDataSource : CountriesTaxesFakeData
 
     @BeforeAll
     fun setUp() {
         fakeDataSource = CountriesTaxesFakeData()
-        getHighestTaxesByCountry =
-            GetHighestTaxesByCountry(fakeDataSource)
-
+        getHighestTaxesByCountry = GetHighestTaxesByCountry(fakeDataSource)
     }
 
 

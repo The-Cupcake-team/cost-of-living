@@ -1,4 +1,4 @@
-package interactor.plus
+package interactor
 
 import data.BananaCheapestFakeData
 import data.EmptyFakeData

@@ -98,7 +98,6 @@ internal class GetBestCitiesForBuyingSoftDrinksInteractorTest {
             GetBestCitiesForBuyingSoftDrinksInteractor(InvalidFakeData)
 
         // when the function throw exception
-
         val result = Executable {
             bestCitiesForBuyingSoftDrinks(3)
         }

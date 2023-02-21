@@ -1,7 +1,6 @@
 package ui
 
 import interactor.*
-import interactor.utils.BedroomOption
 import model.*
 
 
@@ -19,7 +18,9 @@ class UserInterface(private val dataSource: CostOfLivingDataSource) {
                         "8- Get the city that match manager expectations.\n" +
                         "9- Get the top 10 countries that enforce high taxes on carbonated drinks.\n" +
                         "10-Get the most suitable city in the world that they can have more savings per month.\n" +
-                        "11-Get best city for living to a fitness man.\n"+
+                        "11-Get best city for living to a fitness man.\n" +
+                        "12-Get best cities saving money to buy soft drinks.\n" +
+                        "13-Get cheapest city  to spend his weekend in  to the play for tennis.\n" +
                         "Note: for exit write 'Exit/exit' \n\n"
             )
             when (readlnOrNull()) {
@@ -44,21 +45,21 @@ class UserInterface(private val dataSource: CostOfLivingDataSource) {
 
                 "4" -> {
 
-                    println( GetCostlierCityInteractor(dataSource).execute() )
+                    println(GetCostlierCityInteractor(dataSource).execute())
                     printSeparationLine()
                 }
 
                 "5" -> {
-                    println(GetBestCitiesToFashionShoppingInteractor(dataSource))
+                    println(GetBestCitiesToFashionShoppingInteractor(dataSource).invoke(5))
                     printSeparationLine()
                 }
 
                 "6" -> {
-                    print("please enter your full time salary:-")
+                    println("please enter your full time salary:-")
                     val fullTimeSalary = readlnOrNull()?.toDouble()
                     if (fullTimeSalary != null) {
                         println(
-                            GetTopCitiesHasCheapestPriceOfApartmentsAndYearInteractor(dataSource)
+                            GetTopCitiesHasCheapestPriceOfApartmentsAndYearInteractor(dataSource).invoke(10)
                         )
                     } else {
                         print("your input not valid, try again.")
@@ -71,7 +72,7 @@ class UserInterface(private val dataSource: CostOfLivingDataSource) {
                     val citiesNames = readlnOrNull()
                     if (citiesNames != null) {
                         val city = makeCities(citiesNames.split("-"))
-                            println(GetCitiesNamesWithCheapestBananaPricesInteractor(dataSource)(*city))
+                        println(GetCitiesNamesWithCheapestBananaPricesInteractor(dataSource)(*city))
                     } else {
                         print("your input not valid, try again.")
                     }
@@ -96,13 +97,24 @@ class UserInterface(private val dataSource: CostOfLivingDataSource) {
                 }
 
                 "10" -> {
-
                     println(GetBestCityForSavingMoneyInteractor(dataSource)())
+                    printSeparationLine()
                 }
+
                 "11" -> {
                     print("please enter name country:-")
                     val nameCountry = readlnOrNull()
                     println(nameCountry?.let { GetBestCityForLivingToAFitnessManInteracter(dataSource)(it) })
+                    printSeparationLine()
+                }
+
+                "12" -> {
+                    println(GetCitiesNameWithCheapestTennisPriceOnWeekendInteractor(dataSource)(1))
+                    printSeparationLine()
+                }
+
+                "13" -> {
+                    println(GetBestCitiesForBuyingSoftDrinksInteractor(dataSource)(3))
                     printSeparationLine()
                 }
 
