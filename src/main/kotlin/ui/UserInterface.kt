@@ -19,6 +19,7 @@ class UserInterface(private val dataSource: CostOfLivingDataSource) {
                         "8- Get the city that match manager expectations.\n" +
                         "9- Get the top 10 countries that enforce high taxes on carbonated drinks.\n" +
                         "10-Get the most suitable city in the world that they can have more savings per month.\n" +
+                        "11-Get best city for living to a fitness man.\n"+
                         "Note: for exit write 'Exit/exit' \n\n"
             )
             when (readlnOrNull()) {
@@ -106,6 +107,12 @@ class UserInterface(private val dataSource: CostOfLivingDataSource) {
                     } else {
                         print("your input not valid, try again.")
                     }
+                }
+                "11" -> {
+                    print("please enter name country:-")
+                    val nameCountry = readlnOrNull()
+                    println(nameCountry?.let { GetBestCityForLivingToAFitnessManInteracter(dataSource)(it) })
+                    printSeparationLine()
                 }
 
                 "Exit", "exit" -> {

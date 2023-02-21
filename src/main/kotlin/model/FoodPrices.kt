@@ -7,4 +7,7 @@ data class FoodPrices(
     val localCheese1kg: Float?,
     val chickenFillets1kg: Float?,
     val beefRound1kgOrEquivalentBackLegRedMeat: Float?,
-)
+){
+    fun getAverageFoodPrices() =
+        listOfNotNull(riceWhite1kg, eggsRegular12, chickenFillets1kg).average()
+}
