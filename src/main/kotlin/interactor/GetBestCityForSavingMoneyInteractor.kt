@@ -7,9 +7,11 @@ class GetBestCityForSavingMoneyInteractor(private val dataSource: CostOfLivingDa
     operator fun invoke(): CityEntity{
 
         return dataSource.getAllCitiesData()
-            .filter(::excludeNullRequireValues)
-            .sortedByDescending(::calculateSavings)
-            .first()
+            .takeIf { it.isNotEmpty() }?.run {
+                 filter(::excludeNullRequireValues)
+                .sortedByDescending(::calculateSavings)
+                .first()
+            }?: throw IllegalStateException("List of cities is empty")
     }
 
     private fun calculateSavings(city: CityEntity): Float {
