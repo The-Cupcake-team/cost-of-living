@@ -1,24 +1,23 @@
 package interactor
 
 import model.CityEntity
+import utils.isPositive
 
 
 class GetBestCitiesToFashionShoppingInteractor(private val dataSource: CostOfLivingDataSource) {
 
    operator fun invoke(limit: Int): List<String> {
         return dataSource.getAllCitiesData()
-            .filter(::excludeNullClothesBrandPrices)
+            .filter(::excludeNullAndNegativeClothesBrandPrices)
             .sortedBy { it.clothesPrices.getAverageBrandsPrices() }
             .take(limit)
             .map { it.cityName }
     }
-
-    private fun excludeNullClothesBrandPrices(city: CityEntity): Boolean {
+    private fun excludeNullAndNegativeClothesBrandPrices(city: CityEntity): Boolean {
         return city.clothesPrices.run {
-            oneSummerDressInAChainStoreZaraHAndM != null &&
-            onePairOfNikeRunningShoesMidRange != null &&
-            onePairOfJeansLevis50oneOrSimilar != null
+            oneSummerDressInAChainStoreZaraHAndM?.isPositive() ?: false &&
+                    onePairOfNikeRunningShoesMidRange?.isPositive() ?: false &&
+                    onePairOfJeansLevis50oneOrSimilar?.isPositive() ?: false
         }
     }
-
 }
