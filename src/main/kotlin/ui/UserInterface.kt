@@ -96,17 +96,8 @@ class UserInterface(private val dataSource: CostOfLivingDataSource) {
                 }
 
                 "10" -> {
-                    print("please enter you need in center ot  city:-")
-                    print("1-In center")
-                    print("2-Out center")
 
-                    val option = readlnOrNull()?.toInt()
-                    if (option != null) {
-                        val optionCity = option == 1
-                        println(GetBestCityForSavingMoneyInteractor(dataSource).execute(optionCity))
-                    } else {
-                        print("your input not valid, try again.")
-                    }
+                    println(GetBestCityForSavingMoneyInteractor(dataSource)())
                 }
                 "11" -> {
                     print("please enter name country:-")
