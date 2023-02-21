@@ -1,87 +1,133 @@
 package interactor
 
-import data.FakeDataSource
-import data.TestCase
+import data.ManagerExpectationsFakeData
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.function.Executable
 import kotlin.test.assertEquals
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GetCityThatMatchTheManagerExpectationsInteractorTest {
-
-    private lateinit var getCityThatMatchTheManagerExpectationsInteractor: GetCityThatMatchTheManagerExpectationsInteractor
-    private lateinit var fakeData: FakeDataSource
+    private lateinit var getCityThatMatchTheManagerExpectationsInteractor:
+            GetCityThatMatchTheManagerExpectationsInteractor
 
     @BeforeAll
-    fun setUp() {
-        fakeData = FakeDataSource()
+    fun setup() {
         getCityThatMatchTheManagerExpectationsInteractor =
-            GetCityThatMatchTheManagerExpectationsInteractor(fakeData)
-        fakeData.changeDataSource(TestCase.ManagerExpectations)
+            GetCityThatMatchTheManagerExpectationsInteractor(ManagerExpectationsFakeData.emptyData)
+    }
 
+
+    @Test
+    fun `should return city when countries and prices of meals are valid`() {
+        // change source of fake data to countries' names and prices of meals which are valid
+        val interactor =
+            GetCityThatMatchTheManagerExpectationsInteractor(
+                ManagerExpectationsFakeData.validCountriesAndPricesOfMeals
+            )
+        // When return city that match manager expectations
+        val actualData = interactor(countries)
+        val expectedCity = ManagerExpectationsFakeData.validCountriesAndPricesOfMeals.getAllCitiesData()[0]
+
+        // Then check the result
+        assertEquals(expectedCity, actualData)
     }
 
     @Test
-    fun should_returnCity_when_allCountriesIncluded() {
-        // Given all countries included
+    fun `should return city when countries and some prices of meals are valid`() {
+        // Given that countries' names and some prices of meals are valid
+        val interactor =
+            GetCityThatMatchTheManagerExpectationsInteractor(
+                ManagerExpectationsFakeData.validCountriesAndSomeInvalidPricesOfMeals
+            )
+        // When return the city that match manager expectations
+        val actualData = interactor(countries)
+        val expectedCity = ManagerExpectationsFakeData.validCountriesAndSomeInvalidPricesOfMeals
+            .getAllCitiesData().find { it.cityName == "Chetumal" }
+        // Then check the final result
+        assertEquals(expectedCity, actualData)
+    }
+
+    @Test
+    fun `should return city when some countries and prices of meals are valid`() {
+        // Given that some countries' names and prices of meals are valid
+        val interactor =
+            GetCityThatMatchTheManagerExpectationsInteractor(
+                ManagerExpectationsFakeData.someInvalidCountriesAndValidPricesOfMeals
+            )
+        // When return the city that match manager expectations
+        val actualData = interactor(countries)
+        val expectedCity = ManagerExpectationsFakeData.someInvalidCountriesAndValidPricesOfMeals
+                            .getAllCitiesData().find { it.cityName == "Moose Jaw" }
+        // Then check the final result
+        assertEquals(expectedCity, actualData)
+    }
+
+    @Test
+    fun `should return city when some countries and some prices of meals are valid`() {
+        // Given that some countries' names and some prices of meals are valid
+        val interactor =
+            GetCityThatMatchTheManagerExpectationsInteractor(
+                ManagerExpectationsFakeData.invalidSomeCountriesAndSomePricesOfMeals
+            )
+        // When return the city that match manager expectations
+        val actualData = interactor(countries)
+        val expectedCity = ManagerExpectationsFakeData.invalidSomeCountriesAndSomePricesOfMeals
+            .getAllCitiesData().find { it.cityName == "Chetumal" }
+        // Then check the final result
+        assertEquals(expectedCity, actualData)
+    }
+
+    @Test
+    fun `should return exception when countries are valid and prices of meals are invalid`() {
+        // Given that countries' names are valid and prices of meals are invalid
+        val interactor =
+            GetCityThatMatchTheManagerExpectationsInteractor(
+                ManagerExpectationsFakeData.validCountriesAndInvalidPricesOfMeals
+            )
+        // When return the city that match manager expectations
+        val actualData = Executable {
+            interactor(countries).cityName
+        }
+        // Then check the final result
+        assertThrows(IllegalStateException::class.java, actualData)
+    }
+
+    @Test
+    fun `should return exception when countries and prices of meals are invalid`() {
+        // Given that countries' names  and prices of meals are invalid
+        val interactor =
+            GetCityThatMatchTheManagerExpectationsInteractor(
+                ManagerExpectationsFakeData.invalidData
+            )
+        // When return the city that match manager expectations
+        val actualData = Executable {
+            interactor(countries).cityName
+        }
+        // Then check the final result
+        assertThrows(IllegalStateException::class.java, actualData)
+    }
+
+    @Test
+    fun `should return exception when empty countries`() {
+        // Given that countries' names  and prices of meals are invalid
+        val interactor =
+            GetCityThatMatchTheManagerExpectationsInteractor(
+                ManagerExpectationsFakeData.emptyData
+            )
+        // When return the city that match manager expectations
+        val actualData = Executable {
+            interactor(countries).cityName
+        }
+        // Then check the final result
+        assertThrows(IllegalStateException::class.java, actualData)
+    }
+
+    private companion object{
+        // Given the countries which will search on it
         val countries = listOf("united states", "canada", "mexico")
-        // When return the city that match manager expectations
-        val result = getCityThatMatchTheManagerExpectationsInteractor.execute(countries)
-        // Then check the final result
-        assertEquals("Chetumal", result?.cityName)
     }
-
-    @Test
-    fun should_returnCity_when_namesOfCountriesIsUpperCase() {
-        // Given all countries included and all names uppercase
-        val countries = listOf("UNITED STATES", "CANADA", "MEXICO")
-        // When return the city that match manager expectations
-        val result = getCityThatMatchTheManagerExpectationsInteractor.execute(countries)
-        // Then check the final result
-        assertEquals("Chetumal", result?.cityName)
-    }
-
-    @Test
-    fun should_returnCity_when_namesOfCountriesIsMixedUpperCaseAndLowCase() {
-        // Given all countries included and all names mixed
-        val countries = listOf("UnItEd STaTeS", "CaNAdA", "MeXiCo")
-        // When return the city that match manager expectations
-        val result = getCityThatMatchTheManagerExpectationsInteractor.execute(countries)
-        // Then check the final result
-        assertEquals("Chetumal", result?.cityName)
-    }
-
-    @Test
-    fun should_returnCity_when_notAllCountriesIncluded() {
-        // Given not all countries included
-        val countries = listOf("united states", "canada", "iraq")
-        // When return the city that match manager expectations
-        val result = getCityThatMatchTheManagerExpectationsInteractor.execute(countries)
-        // Then check the final result
-        assertEquals("Great Falls", result?.cityName)
-    }
-
-    @Test
-    fun should_returnCity_when_allCountriesNotIncluded() {
-        // Given all countries not included
-        val countries = listOf("egypt", "syria", "iraq")
-        // When return empty result
-        val result = getCityThatMatchTheManagerExpectationsInteractor.execute(countries)
-        // Then check the final result
-        assertNull(null, result?.cityName)
-    }
-
-    @Test
-    fun should_returnCity_when_namesOfCountriesIsEmpty() {
-        // Given all empty string instead of countries names
-        val countries = listOf("", "", "")
-        // When return  empty result
-        val result = getCityThatMatchTheManagerExpectationsInteractor.execute(countries)
-        // Then check the final result
-        assertNull(null, result?.cityName)
-    }
-
 }
